@@ -1,0 +1,1 @@
+export const isPrimitive = (val: any) => Object(val) === val;
