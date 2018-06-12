@@ -1,1 +1,1 @@
-export const isPrimitive = (val: any) => Object(val) === val;
+export const isPrimitive = (val: any) => Object(val) !== val;

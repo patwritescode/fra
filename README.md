@@ -1,6 +1,6 @@
 # fra
 
-Small (<1Kb) mapping library built in TypeScript.
+Small (<1Kb) mapping library built in TypeScript. This project is still in development.
 
 # installation
 
@@ -12,30 +12,39 @@ Small (<1Kb) mapping library built in TypeScript.
 import { Fra } from "fra";
 
 class PersonDTO {
-    firstName: string = "John";
-    lastName: string = "Adams";
-    middleName: string = "Test";
+    firstName: string = "Patrick";
+    lastName: string = "Dunn";
+    middleName: string = "Thomas";
 }
 
 class Person {
     firstName: string = "";
     lastName: string = "";
     otherName: string = "";
+    fullName() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }
 
-const personDTOValue = new PersonDTO();
+const personDTO = new PersonDTO();
 
 const personMapper = Fra.createMap<PersonDTO, Person>(Person)
                         .field("otherName", (src) => src.middleName);
-const personValue = personMapper.map(personDTOValue);
+const person = personMapper.map(personDTO);
 console.log(personValue);
 /*
+Outputs: 
 Person {
-    firstName: "John",
-    lastName: "Adams",
-    otherName: "Test"
+    firstName: "Patrick",
+    lastName: "Dunn",
+    otherName: "Thomas"
 }
+*/
+console.log(person.fullName());
+/*
+Outputs:
+Patrick Dunn
 */
 ```
 
-You can also pass in an already instatiated instance of the destination object and use a mapper to hydrate the rest of the properties.
+You can also pass in an already instantiated instance of the destination object and use a mapper to hydrate the rest of the properties.
