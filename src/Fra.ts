@@ -19,21 +19,21 @@ class Fra<S, T> implements IFra<S, T> {
     public static createMap<S, T>(target: (new() => T)) {
         return new Fra<S, T>(target);
     }
-    public field<TKey extends keyof T>(fieldName: TKey, callback: (sourceValue: S) => T[TKey]): IFra<S, T> {
+    public field<TKey extends keyof T>(fieldName: TKey, callback: (sourceValue: S) => T[TKey]): Fra<S, T> {
         this.fields.push({
             fieldName,
             callback,
         });
         return this;
     }
-    public map(sourceValue: S, targetInitial?: T): T {
-        const instance = targetInitial !== null && targetInitial !== undefined ? targetInitial : new (this.target)();
-        return this.build(instance, sourceValue);
+    public map(sourceValue: S, initialTarget?: T): T {
+        return this.innerMap(sourceValue, initialTarget);
     }
-    private build(instance: T, sourceValue: Partial<T>): T {
+    private innerMap(sourceValue: Partial<T>, instance: T = new (this.target)()): T {
         for (const key in sourceValue) {
-            if (sourceValue.hasOwnProperty(key) && instance.hasOwnProperty(key) && isPrimitive(sourceValue[key])) {
-                instance[key] = sourceValue[key];
+            const keyValue = sourceValue[key];
+            if (sourceValue.hasOwnProperty(key) && instance.hasOwnProperty(key) && isPrimitive(keyValue)) {
+                instance[key] = keyValue;
             }
         }
         for (const field of this.fields) {

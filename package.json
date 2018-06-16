@@ -8,8 +8,7 @@
   "author": "@patwritescode",
   "license": "MIT",
   "scripts": {
-    "build": "rollup -c",
-    "example": "ts-node ./example/index.ts"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "rollup": "^0.60.2",
