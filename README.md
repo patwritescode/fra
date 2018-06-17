@@ -56,3 +56,7 @@ import { link } from "fra";
 const multiPersonMapper = link(PersonDTO, [personMapper, humanMapper]);
 const result = multiPersonMapper(person, human); // output is a PersonDTO mapped from both the human and person object
 ```
+
+# Updates
+
+- 0.3: Added `link` and `.mapAll`. Setup jest tests for source.
