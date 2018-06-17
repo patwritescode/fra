@@ -1,19 +1,44 @@
 {
-  "name": "fra",
-  "version": "0.0.2",
-  "description": "Object model mapper written in TypeScript",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "repository": "https://github.com/patwritescode/fra",
-  "author": "@patwritescode",
-  "license": "MIT",
-  "scripts": {
-    "build": "rollup -c"
-  },
-  "devDependencies": {
-    "rollup": "^0.60.2",
-    "rollup-plugin-typescript2": "^0.14.0",
-    "ts-node": "^6.1.1",
-    "typescript": "^2.9.1"
-  }
+	"name": "fra",
+	"version": "0.0.3",
+	"description": "Object model mapper written in TypeScript",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"repository": "https://github.com/patwritescode/fra",
+	"author": "@patwritescode",
+	"license": "MIT",
+	"scripts": {
+		"build": "rollup -c",
+		"lint": "tslint --project . --fix",
+		"test": "jest",
+		"prepublish": "npm test && npm run lint && npm run build"
+	},
+	"devDependencies": {
+		"@types/jest": "^23.1.0",
+		"jest": "^23.1.0",
+		"rollup": "^0.60.2",
+		"rollup-plugin-typescript2": "^0.14.0",
+		"ts-jest": "^22.4.6",
+		"ts-node": "^6.1.1",
+		"tslint": "^5.10.0",
+		"typescript": "^2.9.1"
+	},
+	"jest": {
+		"moduleFileExtensions": [
+			"ts",
+			"tsx",
+			"js"
+		],
+		"transform": {
+			"^.+\\.(ts|tsx)$": "ts-jest"
+		},
+		"globals": {
+			"ts-jest": {
+				"tsConfigFile": "tsconfig.json"
+			}
+		},
+		"testMatch": [
+			"**/__tests__/*.+(ts|tsx|js)"
+		]
+	}
 }

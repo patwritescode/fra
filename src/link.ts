@@ -10,8 +10,8 @@ export const link = <T, S extends Fra<any, T>>(target: (new() => T), sources: S[
     /**
      * source objects to map to the target
      */
-    return (...values: FirstArgument<S["map"]>[]) => {
+    return (...values: Array<FirstArgument<S["map"]>>) => {
         const instance = new target();
-        return sources.reduce((prev, curr, index) => curr.map(values[index], prev), instance)
-    }
-}
+        return sources.reduce((prev, curr, index) => curr.map(values[index], prev), instance);
+    };
+};

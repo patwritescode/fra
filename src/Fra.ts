@@ -12,14 +12,21 @@ export interface IFra<S, T> {
 /**
  * Represents a mapping of a field to a callback passing in the source value
  */
-export interface FieldMap<S, T> {
+export type FieldMap<S, T> = {
     fieldName: keyof T;
     callback: (sourceValue: Partial<T>) => T[keyof T];
-}
+};
 
 class Fra<S, T> implements IFra<S, T> {
+    /**
+     * Static helper method for instatiating a Fra object. Makes building off a chain nicer.
+     * @param target same as constructor
+     */
+    public static createMap<S, T>(target: (new() => T)) {
+        return new Fra<S, T>(target);
+    }
     private target: (new() => T) = null;
-    private fields: FieldMap<S, T>[] = [];
+    private fields: Array<FieldMap<S, T>> = [];
     /**
      * You can instantiate a new mapper or use the static createMap method
      * @param target output target class for the mapper. This is used to instantiate new objects on map.
@@ -28,21 +35,14 @@ class Fra<S, T> implements IFra<S, T> {
         this.target = target;
     }
     /**
-     * Static helper method for instatiating a Fra object. Makes building off a chain nicer.
-     * @param target same as constructor
-     */
-    public static createMap<S, T>(target: (new() => T)) {
-        return new Fra<S, T>(target);
-    }
-    /**
      * Allows you to explicitly map fields. Good for changing names, mapping from nested objects or other mappers, etc
      * @param fieldName name of the field on the target object
      * @param callback method that passes in the sourceValue object and expects back a match to the field type
      */
     public field<TKey extends keyof T>(fieldName: TKey, callback: (sourceValue: S) => T[TKey]): Fra<S, T> {
         this.fields.push({
-            fieldName,
             callback,
+            fieldName,
         });
         return this;
     }
@@ -52,7 +52,7 @@ class Fra<S, T> implements IFra<S, T> {
      * @param initialTarget object to map to. if left empty a new one will be created from target.
      */
     public map(sourceValue: S, initialTarget?: T): T {
-        if(sourceValue === null || sourceValue === undefined) {
+        if (sourceValue === null || sourceValue === undefined) {
             return null;
         }
         return this.innerMap(sourceValue, initialTarget);
@@ -63,7 +63,7 @@ class Fra<S, T> implements IFra<S, T> {
      */
     public mapAll(sourceValues: S[]): T[] {
         return Array.isArray(sourceValues)
-            ? sourceValues.map(sourceValue => this.map(sourceValue))
+            ? sourceValues.map((sourceValue) => this.map(sourceValue))
             : null;
     }
     /**
@@ -73,9 +73,8 @@ class Fra<S, T> implements IFra<S, T> {
      */
     private innerMap(sourceValue: Partial<T>, instance: T = new (this.target)()): T {
         for (const key in sourceValue) {
-            const keyValue = sourceValue[key];
-            if (sourceValue.hasOwnProperty(key) && instance.hasOwnProperty(key) && isPrimitive(keyValue)) {
-                instance[key] = keyValue;
+            if (sourceValue.hasOwnProperty(key) && instance.hasOwnProperty(key) && isPrimitive(sourceValue[key])) {
+                instance[key] = sourceValue[key];
             }
         }
         for (const field of this.fields) {
