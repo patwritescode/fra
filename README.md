@@ -59,4 +59,4 @@ const result = multiPersonMapper(person, human); // output is a PersonDTO mapped
 
 # Updates
 
-- 0.3: Added `link` and `.mapAll`. Setup jest tests for source.
+- 0.0.3: Added `link` and `.mapAll`. Setup jest tests for source.
