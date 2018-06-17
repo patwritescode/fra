@@ -1,6 +1,6 @@
 # fra
 
-[![npm](https://img.shields.io/npm/v/npm.svg?style=for-the-badge)](https://www.npmjs.com/package/fra)
+[![npm](https://img.shields.io/npm/v/fra.svg?style=for-the-badge)](https://www.npmjs.com/package/fra)
 
 Small (<1Kb) mapping library built in TypeScript. This project is still in development so the api may change until a stable release.
 
