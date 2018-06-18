@@ -1,6 +1,6 @@
 {
 	"name": "fra",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Object model mapper written in TypeScript",
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
